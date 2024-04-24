@@ -1,0 +1,45 @@
+{% extends 'Core.html' %}
+
+{% block content %}
+
+  Forum -  
+  {% if isAuthenticated %}
+  You are Authenticated as {{ Account.Username }}
+  {% else %}
+  Not Authenticated
+  {% endif %}
+
+  <br/><br/>
+
+  <h1>Reviews</h1>
+  {% if Reviews %}
+  <h4> Edit your reviews </h4>
+  {% else %}
+  <h4> Create your first review </h4>
+  {% endif %}
+
+  <br/>
+  <form action="{% url 'Public:ReviewsUpdatePage' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="title">Rating:</label>
+    {% if Reviews %}
+    <input type="text" id="Rating" name="Rating" required value="{{ Reviews.Rating }}">
+    {% else %}
+    <input type="text" id="Rating" name="Rating" required>
+    {% endif %}
+    <br>
+    <label for="content">Content:</label>
+    {% if Reviews %}
+    <textarea id="content" name="Content" rows="5" cols="50" required>{{ Reviews.Content }}</textarea>
+    {% else %}
+    <textarea id="content" name="Content" rows="5" cols="50" required></textarea>
+    {% endif %}
+    <br><br/>
+    {% if Reviews %}
+    <input type="submit" value="Update Review">
+    {% else %}
+    <input type="submit" value="Create Review">
+    {% endif %}
+  </form>
+
+{% endblock %}

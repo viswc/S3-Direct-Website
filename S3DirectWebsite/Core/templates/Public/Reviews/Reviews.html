@@ -21,11 +21,26 @@
   <label for="options">Sort by:</label>
     <select id="options" onchange="window.location.href = this.value;">
         <option value="" selected disabled>Choose an option</option>
-        <option value="{% url 'Public:ForumPage' %}?sortby=ascdate">Asc dateCreated</option>
-        <option value="{% url 'Public:ForumPage' %}?sortby=dscdate">Dsc dateCreated</option>
-        <option value="{% url 'Public:ForumPage' %}?sortby=ascrating">Asc Rating</option>
-        <option value="{% url 'Public:ForumPage' %}?sortby=dscrating">Dsc Rating</option>
+        <option value="{% url 'Public:ReviewsPage' %}?sortby=ascdate">Asc dateCreated</option>
+        <option value="{% url 'Public:ReviewsPage' %}?sortby=dscdate">Dsc dateCreated</option>
+        <option value="{% url 'Public:ReviewsPage' %}?sortby=ascrating">Asc Rating</option>
+        <option value="{% url 'Public:ReviewsPage' %}?sortby=dscrating">Dsc Rating</option>
     </select>
+
+  {% if UserReviews %}
+    <hr/>
+    <p>{{ UserReviews.Content }}</p>
+    <p>By: {{ UserReviews.Profile.Username }}</p>
+    <p>Created: {{ UserReviews.dateCreated }}</p>
+    <p>Updated: {{ UserReviews.dateModified }}</p>
+    <br/><br/>
+
+    {{ UserReviews.Rating }}
+    - Rating
+
+    <hr/>
+    <br/><br/>
+  {% endif %}
 
   {% for r in Reviews %}
     <hr/>
