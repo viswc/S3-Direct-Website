@@ -157,6 +157,46 @@ def forumEdit(request, slug):
     else:
         return HttpResponseRedirect(reverse('Public:ForumPage'))
     
+def forumAction(request, slug):
+    if request.user.is_authenticated:
+        _Account = Account.objects.get(Username = request.user)
+        _Post = Post.objects.get(slug = slug)
+        if request.method == 'POST':
+            Action = request.POST.get('Action')
+            if Action == 'Upvote':
+                if _Post.Downvotes.filter(Username = _Account.Username).exists():
+                    _Post.Downvotes.remove(_Account)
+                    _Post.DownVotesCount -= 1
+                    _Post.save()
+                    
+                if _Post.Upvotes.filter(Username = _Account.Username).exists():
+                    _Post.Upvotes.remove(_Account)
+                    _Post.UpvotesCount -= 1
+                    _Post.save()
+                else:
+                    _Post.Upvotes.add(_Account)
+                    _Post.UpvotesCount += 1
+                    _Post.save()
+            elif Action == 'Downvote':
+                if _Post.Upvotes.filter(Username = _Account.Username).exists():
+                    _Post.Upvotes.remove(_Account)
+                    _Post.UpvotesCount -= 1
+                    _Post.save()
+
+                if _Post.Downvotes.filter(Username = _Account.Username).exists():
+                    _Post.Downvotes.remove(_Account)
+                    _Post.DownVotesCount -= 1
+                    _Post.save()
+                else:
+                    _Post.Downvotes.add(_Account)
+                    _Post.DownVotesCount += 1
+                    _Post.save()
+            return HttpResponseRedirect(reverse('Public:ForumDetailPage', args = [slug]))
+        else:
+            return HttpResponseRedirect(reverse('Public:ForumDetailPage', args = [slug]))
+    else:
+        return HttpResponseRedirect(reverse('Public:ForumPage'))
+    
 def forumDelete(request, slug):
     if request.user.is_authenticated:
         _Account = Account.objects.get(Username = request.user)

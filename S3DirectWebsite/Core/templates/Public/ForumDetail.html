@@ -38,10 +38,19 @@
 
     <br/><br/>
 
-    {{ Post.UpvotesCount }}
-    <button><a href="{% url 'Public:ForumPage' %}">Upvote</a></button>
-    {{ Post.DownVotesCount }}
-    <button><a href="{% url 'Public:ForumPage' %}">Downvote</a></button>
+    <form action="{% url 'Public:ForumActionPage' Post.slug %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="Action" value="Upvote">
+      {{ Post.UpvotesCount }}
+      <input type="submit" value="Upvote">
+    </form>
+
+    <form action="{% url 'Public:ForumActionPage' Post.slug %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="Action" value="Downvote">
+      {{ Post.DownVotesCount }}
+      <input type="submit" value="Downvote">
+    </form>
     {{ Post.CommentsCount }}
     <button>Comment</button>
 
