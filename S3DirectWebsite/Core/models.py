@@ -40,3 +40,12 @@ class Comment(models.Model):
     Content = models.CharField(max_length=1000, default="")
     Attachments = models.ManyToManyField(Attachments, blank=True)
     isEdited = models.BooleanField(default=False)
+
+class Reviews(models.Model):
+    dateCreated = models.DateTimeField(auto_now_add = True)
+    dateModified = models.DateTimeField(auto_now = True)
+    primaryKey = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
+    Profile = models.ForeignKey(Account, on_delete=models.CASCADE)
+    Content = models.CharField(max_length=1000, default="")
+    Rating = models.IntegerField(default=0)

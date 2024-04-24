@@ -1,0 +1,47 @@
+{% extends 'Core.html' %}
+
+{% block content %}
+
+  Forum -  
+  {% if isAuthenticated %}
+  You are Authenticated as {{ Account.Username }}
+  {% else %}
+  Not Authenticated
+  {% endif %}
+
+  <br/><br/>
+
+  <h1>Reviews</h1>
+  {% if isAuthenticated %}
+  <button><a href="{% url 'Public:ReviewsUpdatePage' %}">Your Review</a></button>
+  {% else %}
+  <button><a href="{% url 'Authenticate:LoginPage' %}">Login to Review</a></button>
+  {% endif %}
+
+  <label for="options">Sort by:</label>
+    <select id="options" onchange="window.location.href = this.value;">
+        <option value="" selected disabled>Choose an option</option>
+        <option value="{% url 'Public:ForumPage' %}?sortby=ascdate">Asc dateCreated</option>
+        <option value="{% url 'Public:ForumPage' %}?sortby=dscdate">Dsc dateCreated</option>
+        <option value="{% url 'Public:ForumPage' %}?sortby=ascrating">Asc Rating</option>
+        <option value="{% url 'Public:ForumPage' %}?sortby=dscrating">Dsc Rating</option>
+    </select>
+
+  {% for r in Reviews %}
+    <hr/>
+    <p>{{ r.Content }}</p>
+    <p>By: {{ post.Profile.Username }}</p>
+    <p>Created: {{ post.dateCreated }}</p>
+    <p>Updated: {{ post.dateModified }}</p>
+    <br/><br/>
+
+    {{ r.Rating }}
+    - Rating
+
+    <hr/>
+    <br/><br/>
+  {% empty %}
+    <h4>No Reviews</h4>
+  {% endfor %}
+
+{% endblock %}

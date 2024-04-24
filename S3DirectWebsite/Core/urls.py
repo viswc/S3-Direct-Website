@@ -7,11 +7,17 @@ app_name = "Public"
 urlpatterns = [
      path("", Home.home, name = "HomePageReverse"),
      path("home/", Home.home, name = "HomePage"),
-     path("forum/", Home.forum, name = "ForumPage"),
-     path("forum/create/", Home.forumCreate, name = "ForumCreatePage"),
-     path("forum/<str:slug>/", Home.forumDetail, name = "ForumDetailPage"),
-     path("forum/<str:slug>/action/", Home.forumAction, name = "ForumActionPage"),
-     path("forum/<str:slug>/edit/", Home.forumEdit, name = "ForumEditPage"),
-     path("forum/<str:slug>/delete/", Home.forumDelete, name = "ForumDeletePage"),
-     path("forum/<str:slug>/comment/", Home.forumComment, name = "ForumAddComment"),
+     path("about/", Home.about, name = "AboutPage"),
+     path("contact/", Home.contact, name = "ContactPage"),
+
+     path("forum/", Forum.forum, name = "ForumPage"),
+     path("forum/create/", Forum.forumCreate, name = "ForumCreatePage"),
+     path("forum/<str:slug>/", Forum.forumDetail, name = "ForumDetailPage"),
+     path("forum/<str:slug>/action/", Forum.forumAction, name = "ForumActionPage"),
+     path("forum/<str:slug>/edit/", Forum.forumEdit, name = "ForumEditPage"),
+     path("forum/<str:slug>/delete/", Forum.forumDelete, name = "ForumDeletePage"),
+     path("forum/<str:slug>/comment/", Forum.forumComment, name = "ForumAddComment"),
+
+     path("reviews/", ReviewsC.reviewsFunc, name = "ReviewsPage"),
+     path("reviews/update/", ReviewsC.reviewsUpdate, name = "ReviewsUpdatePage"),
 ]

@@ -19,6 +19,15 @@
   <button><a href="{% url 'Public:ForumPage' %}">All your Posts</a></button>
   {% endif %}
 
+  <label for="options">Sort by:</label>
+    <select id="options" onchange="window.location.href = this.value;">
+        <option value="" selected disabled>Choose an option</option>
+        <option value="{% url 'Public:ForumPage' %}?sortby=ascdate">Asc dateCreated</option>
+        <option value="{% url 'Public:ForumPage' %}?sortby=dscdate">Dsc dateCreated</option>
+        <option value="{% url 'Public:ForumPage' %}?sortby=mcomments">Most Comments</option>
+        <option value="{% url 'Public:ForumPage' %}?sortby=mliked">Most Liked</option>
+    </select>
+
   {% for post in Forums %}
     <hr/>
     <h2><a href="{% url 'Public:ForumDetailPage' post.slug %}">{{ post.Title }}</a></h2>
