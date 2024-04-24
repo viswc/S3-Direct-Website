@@ -38,21 +38,26 @@
 
     <br/><br/>
 
-    <form action="{% url 'Public:ForumActionPage' Post.slug %}" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="Action" value="Upvote">
-      {{ Post.UpvotesCount }}
-      <input type="submit" value="Upvote">
-    </form>
+    {% if isAuthenticated %}
+      <form action="{% url 'Public:ForumActionPage' Post.slug %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="Action" value="Upvote">
+        {{ Post.UpvotesCount }}
+        <input type="submit" value="Upvote">
+      </form>
 
-    <form action="{% url 'Public:ForumActionPage' Post.slug %}" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="Action" value="Downvote">
-      {{ Post.DownVotesCount }}
-      <input type="submit" value="Downvote">
-    </form>
-    {{ Post.CommentsCount }}
-    <button>Comment</button>
+      <form action="{% url 'Public:ForumActionPage' Post.slug %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="Action" value="Downvote">
+        {{ Post.DownVotesCount }}
+        <input type="submit" value="Downvote">
+      </form>
+    {% else %}
+      {{ Post.UpvotesCount }} - Upvotes
+      {{ Post.DownVotesCount }} - Downvotes
+    {% endif %}
+
+    {{ Post.CommentsCount }} - Comments
 
     <hr/>
 

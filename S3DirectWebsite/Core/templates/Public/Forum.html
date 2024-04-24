@@ -37,9 +37,9 @@
     <br/><br/>
 
     {{ post.UpvotesCount }}
-    <button><a href="{% url 'Public:ForumPage' %}">Upvote</a></button>
+    - Upvotes
     {{ post.DownVotesCount }}
-    <button><a href="{% url 'Public:ForumPage' %}">Downvote</a></button>
+    - Downvotes
     {{ post.CommentsCount }}
     <button><a href="{% url 'Public:ForumDetailPage' post.slug %}">Comments</a></button>
 

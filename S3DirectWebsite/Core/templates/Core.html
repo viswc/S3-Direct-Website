@@ -2,9 +2,7 @@
   <body>
     <h1>S3Direct</h1>
     <button><a href="{% url 'Public:HomePage' %}">Home</a></button>
-    {% if isAuthenticated %}
     <button><a href="{% url 'Public:ForumPage' %}">Forum</a></button>
-    {% endif %}
     <button>
       {% if isAuthenticated %}
         <a href="{% url 'Authenticate:LogoutPage' %}">Logout</a>
