@@ -1,0 +1,31 @@
+
+{% if request.GET.error %}
+    <p>Error: {{ request.GET.error }}</p>
+{% endif %}
+
+<br/>
+
+<h1>Create Account</h1>
+<form action="{% url 'Authenticate:CreateAccount' %}" method="post">
+{% csrf_token %}
+<label for="firstname">Firstname:</label>
+  <input type="text" id="firstname" name="firstname" required>
+  <br>
+  <label for="lastname">Lastname:</label>
+  <input type="text" id="lastname" name="lastname" required>
+  <br>
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username" required>
+  <br>
+  <label for="email">Email:</label>
+  <input type="text" id="email" name="email" required>
+  <br>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required>
+  <br>
+  <label for="confirmPassword">Confirm Password:</label>
+  <input type="password" id="confirmPassword" name="confirmPassword" required>
+  <br>
+  <input type="submit" value="Create Account">
+</form>
+<a href="{% url 'Authenticate:LoginPage' %}">Login</a>

@@ -1,1 +1,14 @@
-Hello World !!!!
+<button>
+  {% if isAuthenticated %}
+    <a href="{% url 'Authenticate:LogoutPage' %}">Logout</a>
+  {% else %}
+    <a href="{% url 'Authenticate:LoginPage' %}">Login</a>
+  {% endif %}
+</button><br/><br/>
+
+Welcome -  
+{% if isAuthenticated %}
+You are Authenticated as {{ Account.Username }}
+{% else %}
+Not Authenticated
+{% endif %}
