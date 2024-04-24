@@ -1,0 +1,121 @@
+{% extends 'Core.html' %}
+
+{% block content %}
+
+  Forum -  
+  {% if isAuthenticated %}
+  You are Authenticated as {{ Account.Username }}
+  {% else %}
+  Not Authenticated
+  {% endif %}
+
+  <br/><br/>
+
+  <h1>Forum Thread</h1>
+  {% if isAuthenticated %}
+  <button><a href="{% url 'Public:ForumEditPage' Post.slug %}">Edit</a></button>
+  {% endif %}
+  {% if isAuthenticated %}
+  <form action="{% url 'Public:ForumDeletePage' Post.slug %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+  </form>
+  {% endif %}
+
+    <hr/>
+    <h2>{{ Post.Title }}</h2>
+    <p>{{ Post.Content }}</p>
+    <p>By: {{ Post.Profile.Username }}</p>
+    <p>Created: {{ Post.dateCreated }}</p>
+    <p>Updated: {{ Post.dateModified }}</p>
+
+    {% if Post.Attachments.first %}
+      <p>Attachments:</p>
+      {% for attachment in Post.Attachments.all %}
+        <img src="{{ attachment.Image.url }}" width="100" height="100"/>
+      {% endfor %}
+    {% endif %}
+
+    <br/><br/>
+
+    {{ Post.UpvotesCount }}
+    <button><a href="{% url 'Public:ForumPage' %}">Upvote</a></button>
+    {{ Post.DownVotesCount }}
+    <button><a href="{% url 'Public:ForumPage' %}">Downvote</a></button>
+    {{ Post.CommentsCount }}
+    <button>Comment</button>
+
+    <hr/>
+
+    <h2>Comments</h2>
+    
+    {% if isAuthenticated %}
+
+      <p>
+        {% if Commented %}
+          Edit your comment
+        {% else %}
+          Add Comment
+        {% endif %}
+      </p>
+
+      <form action="{% url 'Public:ForumAddComment' Post.slug %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="content">Content:</label>
+
+        {% if Commented %}
+          <textarea id="content" name="Content" rows="5" cols="50" required>{{ UserComment.Content }}</textarea>
+        {% else %}
+          <textarea id="content" name="Content" required></textarea>
+        {% endif %}
+
+        <input type="file" id="Attachments" name="Attachments" accept="image/*" required multiple>
+        <br><br/>
+        {% if Commented %}
+          <input type="submit" value="Edit Comment">
+        {% else %}
+          <input type="submit" value="Add Comment">
+        {% endif %}
+      </form>
+
+      {% if UserComment.Attachments.first %}
+        <p>Attachments:</p>
+        {% for attachment in UserComment.Attachments.all %}
+          <img src="{{ attachment.Image.url }}" width="100" height="100"/>
+        {% endfor %}
+      {% endif %}
+
+      <hr/>
+
+    {% else %}
+      <h4>Login to post your comments</h4>
+    {% endif %}
+
+    {% for comment in Comments %}
+      <hr/>
+      <p>{{ comment.Content }}</p>
+      <p>By: {{ comment.Profile.Username }}</p>
+      <p>Created: {{ comment.dateCreated }}</p>
+      <p>Updated: {{ comment.dateModified }}</p>
+
+      {% if comment.Attachments.first %}
+        <p>Attachments:</p>
+        {% for attachment in comment.Attachments.all %}
+          <img src="{{ attachment.Image.url }}" width="100" height="100"/>
+        {% endfor %}
+      {% endif %}
+
+      <br/><br/>
+
+      {% if comment.Profile.Username|lower == Account.Username|lower %}
+      <button><a href="{% url 'Public:ForumPage' %}">Edit</a></button>
+      <button><a href="{% url 'Public:ForumPage' %}">Delete</a></button>
+      {% endif %}
+
+      <hr/>
+      <br/><br/>
+    {% empty %}
+      <h4>No Comments found.</h4>
+    {% endfor %}
+
+{% endblock %}

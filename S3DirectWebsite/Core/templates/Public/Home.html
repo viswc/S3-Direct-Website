@@ -1,14 +1,14 @@
-<button>
-  {% if isAuthenticated %}
-    <a href="{% url 'Authenticate:LogoutPage' %}">Logout</a>
-  {% else %}
-    <a href="{% url 'Authenticate:LoginPage' %}">Login</a>
-  {% endif %}
-</button><br/><br/>
+{% extends 'Core.html' %}
 
-Welcome -  
-{% if isAuthenticated %}
-You are Authenticated as {{ Account.Username }}
-{% else %}
-Not Authenticated
-{% endif %}
+{% block content %}
+
+  Welcome -  
+  {% if isAuthenticated %}
+  You are Authenticated as {{ Account.Username }}
+  {% else %}
+  Not Authenticated
+  {% endif %}
+
+  <h1>Home Page</h1>
+
+{% endblock %}

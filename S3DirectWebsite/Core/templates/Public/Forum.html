@@ -1,0 +1,56 @@
+{% extends 'Core.html' %}
+
+{% block content %}
+
+  Forum -  
+  {% if isAuthenticated %}
+  You are Authenticated as {{ Account.Username }}
+  {% else %}
+  Not Authenticated
+  {% endif %}
+
+  <br/><br/>
+
+  <h1>Forum</h1>
+  {% if isAuthenticated %}
+  <button><a href="{% url 'Public:ForumCreatePage' %}">Create Post</a></button>
+  {% endif %}
+  {% if isAuthenticated %}
+  <button><a href="{% url 'Public:ForumPage' %}">All your Posts</a></button>
+  {% endif %}
+
+  {% for post in Forums %}
+    <hr/>
+    <h2><a href="{% url 'Public:ForumDetailPage' post.slug %}">{{ post.Title }}</a></h2>
+    <p>{{ post.Content }}</p>
+    <p>By: {{ post.Profile.Username }}</p>
+    <p>Created: {{ post.dateCreated }}</p>
+    <p>Updated: {{ post.dateModified }}</p>
+
+    {% if post.Attachments.first %}
+      <p>Attachments:</p>
+      {% for attachment in post.Attachments.all %}
+        <img src="{{ attachment.Image.url }}" width="100" height="100"/>
+      {% endfor %}
+    {% endif %}
+
+    <br/><br/>
+
+    {{ post.UpvotesCount }}
+    <button><a href="{% url 'Public:ForumPage' %}">Upvote</a></button>
+    {{ post.DownVotesCount }}
+    <button><a href="{% url 'Public:ForumPage' %}">Downvote</a></button>
+    {{ post.CommentsCount }}
+    <button><a href="{% url 'Public:ForumDetailPage' post.slug %}">Comments</a></button>
+
+    {% if isAuthenticated and post.Profile.Username|lower == Account.Username|lower %}
+    <button><a href="{% url 'Public:ForumEditPage' post.slug %}">Edit</a></button>
+    {% endif %}
+
+    <hr/>
+    <br/><br/>
+  {% empty %}
+    <h4>No Forums</h4>
+  {% endfor %}
+
+{% endblock %}

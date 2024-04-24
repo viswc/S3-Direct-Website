@@ -61,8 +61,8 @@ def createAccount(request):
             queryParameter = {'error': 'Email address does not meet the requirements.'}
             return HttpResponseRedirect(reverse('Authenticate:CreateAccount') + "?" + urlencode(queryParameter)) 
 
-        user = User.objects.create_user(username = username, password = password)
-        account = Account.objects.create(Username = user, email = email, firstName = firstName, lastName = lastName, isActive = True)
+        user = User.objects.create_user(username = username.lower(), password = password)
+        account = Account.objects.create(Username = user, email = email.lower(), firstName = firstName, lastName = lastName, isActive = True)
         queryParameter = {"success": "Account created successfully"}
         return HttpResponseRedirect(reverse('Authenticate:LoginPage') + "?" + urlencode(queryParameter))
     else:

@@ -5,7 +5,7 @@ import uuid
 class Account(models.Model):
     dateCreated = models.DateTimeField(auto_now_add = True)
     dateModified = models.DateTimeField(auto_now = True)
-    primaryKey = models.UUIDField(default=uuid.uuid4, editable=True, unique=True)
+    primaryKey = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     Username = models.OneToOneField(User, on_delete=models.CASCADE)
     isActive = models.BooleanField(default=False)
