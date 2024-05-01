@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from Authenticate.models import *
 from Core.models import *
+import os
 
 def forum(request):
     if request.method == 'GET':
@@ -52,7 +53,7 @@ def forumCreate(request):
             _Post.save()
 
             for attachment in _Attachments:
-                _Attachment = Attachments.objects.create(Profile = _Account, Image = attachment)
+                _Attachment = Attachments.objects.create(Profile = _Account, File = attachment, Type = os.path.splitext(attachment.name)[1])
                 _Post.Attachments.add(_Attachment)
                 _Post.save()
             return HttpResponseRedirect(reverse('Public:ForumPage'))
@@ -113,7 +114,7 @@ def forumComment(request, slug):
             
             _Comment = Comment.objects.create(Profile = _Account, Post = _Post, Content = Content)
             for attachment in _Attachments:
-                _Attachment = Attachments.objects.create(Profile = _Account, Image = attachment)
+                _Attachment = Attachments.objects.create(Profile = _Account, File = attachment, Type = os.path.splitext(attachment.name)[1])
                 _Comment.Attachments.add(_Attachment)
                 _Comment.save()
             _Post.CommentsCount += 1
@@ -139,7 +140,7 @@ def forumEdit(request, slug):
             _Post.save()
 
             for attachment in _Attachments:
-                _Attachment = Attachments.objects.create(Profile = _Account, Image = attachment)
+                _Attachment = Attachments.objects.create(Profile = _Account, File = attachment, Type = os.path.splitext(attachment.name)[1])
                 _Post.Attachments.add(_Attachment)
                 _Post.save()
             return HttpResponseRedirect(reverse('Public:ForumDetailPage', args = [slug]))

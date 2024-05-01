@@ -9,7 +9,8 @@ class Attachments(models.Model):
     primaryKey = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     Profile = models.ForeignKey(Account, on_delete=models.CASCADE)
-    Image = models.ImageField(upload_to='attachments/')
+    File = models.FileField(upload_to='attachments/')
+    Type = models.CharField(max_length=100, default="")
 
 class Post(models.Model):
     dateCreated = models.DateTimeField(auto_now_add = True)
