@@ -4,7 +4,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 from Authenticate.models import Account
-from Core.models import Post, Attachments, Comment
+from Core.models import Post, Attachments, Comment, Reviews
 from django.core.files.uploadedfile import SimpleUploadedFile
 import tempfile
 import os
@@ -125,3 +125,80 @@ class ForumTests(TestCase):
         post.refresh_from_db()
         self.assertEqual(post.DownVotesCount, 1)
         self.assertTrue(post.Downvotes.filter(pk=self.account.pk).exists())
+
+class ReviewsTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username='testuser', password='password123')
+        self.account = Account.objects.create(Username=self.user, email='testuser@example.com', firstName='Test', lastName='User', isActive=True)
+        self.review = Reviews.objects.create(Profile=self.account, Content='Great product!', Rating=5)
+        self.reviews_url = reverse('Public:ReviewsPage')
+        self.reviews_update_url = reverse('Public:ReviewsUpdatePage')
+
+    def test_reviews_func_get_authenticated(self):
+        self.client.login(username='testuser', password='password123')
+        response = self.client.get(self.reviews_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Public/Reviews/Reviews.html')
+        self.assertIn('isAuthenticated', response.context)
+        self.assertTrue(response.context['isAuthenticated'])
+        self.assertEqual(response.context['Account'], self.account)
+        self.assertEqual(response.context['UserReviews'], self.review)
+        # self.assertIn(self.review, response.context['Reviews'])
+
+    def test_reviews_func_get_unauthenticated(self):
+        response = self.client.get(self.reviews_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Public/Reviews/Reviews.html')
+        self.assertIn('isAuthenticated', response.context)
+        self.assertFalse(response.context['isAuthenticated'])
+        self.assertIn(self.review, response.context['Reviews'])
+
+    def test_reviews_update_get_authenticated(self):
+        self.client.login(username='testuser', password='password123')
+        response = self.client.get(self.reviews_update_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Public/Reviews/ReviewsUpdate.html')
+        self.assertEqual(response.context['Account'], self.account)
+        self.assertEqual(response.context['Reviews'], self.review)
+
+    def test_reviews_update_get_unauthenticated(self):
+        response = self.client.get(self.reviews_update_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, self.reviews_url)
+
+    def test_reviews_update_post_authenticated_existing_review(self):
+        self.client.login(username='testuser', password='password123')
+        response = self.client.post(self.reviews_update_url, {
+            'Content': 'Updated review content',
+            'Rating': 4
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, self.reviews_url)
+
+        updated_review = Reviews.objects.get(Profile=self.account)
+        self.assertEqual(updated_review.Content, 'Updated review content')
+        self.assertEqual(updated_review.Rating, 4)
+
+    def test_reviews_update_post_authenticated_new_review(self):
+        self.review.delete()  # Remove the existing review to test creating a new one
+        self.client.login(username='testuser', password='password123')
+        response = self.client.post(self.reviews_update_url, {
+            'Content': 'New review content',
+            'Rating': 5
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, self.reviews_url)
+
+        new_review = Reviews.objects.get(Profile=self.account)
+        self.assertEqual(new_review.Content, 'New review content')
+        self.assertEqual(new_review.Rating, 5)
+
+    def test_reviews_update_post_unauthenticated(self):
+        response = self.client.post(self.reviews_update_url, {
+            'Content': 'Unauthenticated review content',
+            'Rating': 3
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, self.reviews_url)
+        self.assertFalse(Reviews.objects.filter(Content='Unauthenticated review content').exists())
