@@ -31,6 +31,19 @@ class Post(models.Model):
     isEdited = models.BooleanField(default=False)
     slug = models.CharField(max_length=100, default="")
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self.generate_slug()
+        super(Post, self).save(*args, **kwargs)
+
+    def generate_slug(self):
+        segments = self.Title.split(' ')
+        slug = f'{self.Profile.Username.username}-'
+        for segment in segments:
+            slug += segment.lower() + '-'
+        slug += str(self.primaryKey)
+        return slug
+
 class Comment(models.Model):
     dateCreated = models.DateTimeField(auto_now_add = True)
     dateModified = models.DateTimeField(auto_now = True)
