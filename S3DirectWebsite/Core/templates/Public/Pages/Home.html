@@ -2,13 +2,77 @@
 
 {% block content %}
 
-  Welcome -  
+  <!-- Welcome -  
   {% if isAuthenticated %}
   You are Authenticated as {{ Account.Username }}
   {% else %}
   Not Authenticated
   {% endif %}
 
-  <h1>Home Page</h1>
+  <h1>Home Page</h1> -->
+
+  <div class="hero-section">
+    <div class="content">
+        <h1>Seamless Cloud Storage Management<br />Anytime, Anywhere</h1>
+        <p>Effortlessly manage your Amazon S3 storage with S3 Direct. Upload, download, and organize files with ease.
+            Real-time updates and granular controls put you in charge of your data, wherever you are.</p>
+        <div class="button-container">
+            <a href="#" class="primary-button">Install now</a>
+        </div>
+    </div>
+    <div class="single-image">
+        <img src="https://via.placeholder.com/400" alt="Cloud Storage" class="hero-image" width="250px">
+    </div>
+  </div>
+
+
+  <div class="features-section">
+    <div class="feature-heading">Feature headline</div>
+    <div class="feature-container">
+        <div class="feature">
+            <div class="feature-icon"></div>
+            <div class="feature-title">Feature 1</div>
+            <div class="feature-description">"Effortlessly store, organize, and share files with S3 Direct. Your secure,
+                on-the-go file management solution."</div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon"></div>
+            <div class="feature-title">Feature 2</div>
+            <div class="feature-description">"Effortlessly store, organize, and share files with S3 Direct. Your secure,
+                on-the-go file management solution."</div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon"></div>
+            <div class="feature-title">Feature 3</div>
+            <div class="feature-description">"Effortlessly store, organize, and share files with S3 Direct. Your secure,
+                on-the-go file management solution."</div>
+        </div>
+    </div>
+  </div>
+
+  <div class="reviews-section">
+    <h2 class="section-heading">Reviews from our users</h2>
+    <div class="review-cards">
+
+      {% for review in Reviews %}
+
+        <div class="review-card">
+            <div class="review-content">
+                <div class="reviewer-name">{{ review.Profile.firstName }} {{ review.Profile.lastName }}</div>
+                <p class="review-text">"{{ review.Content }}"</p>
+            </div>
+        </div>
+
+      {% endfor %}
+
+    </div>
+  </div>
+
+  <div class="download-section">
+    <h2 class="download-heading">Want to manage the space better?</h2>
+    <div class="download-button">
+        <a href="#" class="download-link">Download Now</a>
+    </div>
+  </div>
 
 {% endblock %}

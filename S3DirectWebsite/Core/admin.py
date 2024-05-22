@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(Attachments)
 admin.site.register(Post)
 admin.site.register(Comment)
+admin.site.register(Reviews)

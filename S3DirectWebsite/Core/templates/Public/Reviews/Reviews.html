@@ -1,8 +1,15 @@
 {% extends 'Core.html' %}
 
+{% block styleSection %}
+{% endblock %}
+
+{% block headSection %}
+<link rel="stylesheet" href="/static/reviews_.css">
+{% endblock %}
+
 {% block content %}
 
-  Forum -  
+  <!-- Forum -  
   {% if isAuthenticated %}
   You are Authenticated as {{ Account.Username }}
   {% else %}
@@ -16,7 +23,7 @@
   <button><a href="{% url 'Public:ReviewsUpdatePage' %}">Your Review</a></button>
   {% else %}
   <button><a href="{% url 'Authenticate:LoginPage' %}">Login to Review</a></button>
-  {% endif %}
+  {% endif %} -->
 
   <label for="options">Sort by:</label>
     <select id="options" onchange="window.location.href = this.value;">
@@ -42,21 +49,38 @@
       <br/><br/>
     {% endif %}
 
-  {% for r in Reviews %}
-    <hr/>
-    <p>{{ r.Content }}</p>
-    <p>By: {{ post.Profile.Username }}</p>
-    <p>Created: {{ post.dateCreated }}</p>
-    <p>Updated: {{ post.dateModified }}</p>
-    <br/><br/>
+  <div class="reviews-section">
+    <h2 class="section-heading">Reviews from our users</h2>
+    <div class="review-cards">
 
-    {{ r.Rating }}
-    - Rating
+      {% for r in Reviews %}
+        <!-- <hr/>
+        <p>{{ r.Content }}</p>
+        <p>By: {{ post.Profile.Username }}</p>
+        <p>Created: {{ post.dateCreated }}</p>
+        <p>Updated: {{ post.dateModified }}</p>
+        <br/><br/>
 
-    <hr/>
-    <br/><br/>
-  {% empty %}
-    <h4>No Reviews</h4>
-  {% endfor %}
+        {{ r.Rating }}
+        - Rating
+
+        <hr/>
+        <br/><br/> -->
+
+        <div class="review-card">
+            <div class="review-content">
+                <div class="reviewer-name">{{ r.Profile.firstName }} {{ r.Profile.lastName }}</div>
+                <p class="review-text">"{{ r.Content }}"</p>
+            </div>
+        </div>
+
+      {% empty %}
+        <h4>No Reviews</h4>
+      {% endfor %}
+
+    </div>
+  </div>
+
+
 
 {% endblock %}

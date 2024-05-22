@@ -1,19 +1,54 @@
-<html>
-  <body>
-    <h1>S3Direct</h1>
-    <button><a href="{% url 'Public:HomePage' %}">Home</a></button>
-    <button><a href="{% url 'Public:ForumPage' %}">Forum</a></button>
-    <button><a href="{% url 'Public:ReviewsPage' %}">Reviews</a></button>
-    <button>
-      {% if isAuthenticated %}
-        <a href="{% url 'Authenticate:LogoutPage' %}">Logout</a>
-      {% else %}
-        <a href="{% url 'Authenticate:LoginPage' %}">Login</a>
-      {% endif %}
-    </button>
+<!DOCTYPE html>
+<html lang="en">
 
-    <br/><br/>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S3Direct</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    {% block content %}{% endblock %}
-  </body>
+    {% block styleSection %}
+      <link rel="stylesheet" href="/static/style.css">
+    {% endblock %}
+
+    {% block headSection %}
+    {% endblock %}
+
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-image">
+                <a href="{% url 'Public:HomePage' %}">
+                  <img src="/static/resources/Black - Horizontal.png" alt="S3 Direct" height="40px">
+                </a>
+            </div>
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <i class="fa fa-bars"></i>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="{% url 'Public:AboutPage' %}">About</a>
+            <a href="#">User Manual</a>
+            <a href="{% url 'Public:ForumPage' %}">Forum</a>
+            <a href="#">Contact</a>
+            <a href="{% url 'Public:ReviewsPage' %}">Reviews</a>
+
+            {% if isAuthenticated %}
+              <a href="{% url 'Authenticate:LogoutPage' %}">Logout</a>
+            {% else %}
+              <a href="{% url 'Authenticate:LoginPage' %}">Login</a>
+            {% endif %}
+
+            <a href="#" class="primary-button">Download App</a>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <script src="/static/script.js"></script>
+</body>
+
 </html>

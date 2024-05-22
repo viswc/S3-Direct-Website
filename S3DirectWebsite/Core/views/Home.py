@@ -16,6 +16,9 @@ def home(request):
             context = {
                 "isAuthenticated": False
             }
+
+        reqReviews = Reviews.objects.order_by('-dateCreated')[:3]
+        context["Reviews"] = reqReviews
         return render(request, 'Public/Pages/Home.html', context)
     else:
         return HttpResponseRedirect(reverse('Public:HomePage'))
