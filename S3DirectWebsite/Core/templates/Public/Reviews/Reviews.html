@@ -25,16 +25,17 @@
   <button><a href="{% url 'Authenticate:LoginPage' %}">Login to Review</a></button>
   {% endif %} -->
 
-  <label for="options">Sort by:</label>
+    
+    <!-- <label for="options">Sort by:</label>
     <select id="options" onchange="window.location.href = this.value;">
         <option value="" selected disabled>Choose an option</option>
         <option value="{% url 'Public:ReviewsPage' %}?sortby=ascdate">Asc dateCreated</option>
         <option value="{% url 'Public:ReviewsPage' %}?sortby=dscdate">Dsc dateCreated</option>
         <option value="{% url 'Public:ReviewsPage' %}?sortby=ascrating">Asc Rating</option>
         <option value="{% url 'Public:ReviewsPage' %}?sortby=dscrating">Dsc Rating</option>
-    </select>
+    </select> -->
 
-    {% if UserReviews %}
+    <!-- {% if UserReviews %}
       <hr/>
       <p>{{ UserReviews.Content }}</p>
       <p>By: {{ UserReviews.Profile.Username }}</p>
@@ -47,13 +48,42 @@
 
       <hr/>
       <br/><br/>
-    {% endif %}
+    {% endif %} -->
 
-  <div class="reviews-section">
-    <h2 class="section-heading">Reviews from our users</h2>
-    <div class="review-cards">
+    <div class="review-section">
+      <div class="review-header">
+          <div class="review-input">
+            <input type="text" placeholder="Write a review..." class="write-review">
+            <button class="submit-btn">&#9654;</button>
+          </div>
+          <select class="filter" onchange="window.location.href = this.value;">
+            <option value="" selected disabled>Choose an option</option>
+            <option value="{% url 'Public:ReviewsPage' %}?sortby=ascdate">Asc dateCreated</option>
+            <option value="{% url 'Public:ReviewsPage' %}?sortby=dscdate">Dsc dateCreated</option>
+            <option value="{% url 'Public:ReviewsPage' %}?sortby=ascrating">Asc Rating</option>
+            <option value="{% url 'Public:ReviewsPage' %}?sortby=dscrating">Dsc Rating</option>
+          </select>
+      </div>
+      <h2>Reviews from our users</h2>
 
       {% for r in Reviews %}
+
+        <div class="review">
+            <h3>{{ r.Profile.firstName }} {{ r.Profile.lastName }}</h3>
+            <p>"{{ r.Content }}"</p>
+        </div>
+
+      {% empty %}
+        <h4>No Reviews</h4>
+      {% endfor %}
+
+    </div>
+
+  <!-- <div class="reviews-section">
+    <h2 class="section-heading">Reviews from our users</h2>
+    <div class="review-cards"> -->
+
+      <!-- {% for r in Reviews %} -->
         <!-- <hr/>
         <p>{{ r.Content }}</p>
         <p>By: {{ post.Profile.Username }}</p>
@@ -67,7 +97,7 @@
         <hr/>
         <br/><br/> -->
 
-        <div class="review-card">
+        <!-- <div class="review-card">
             <div class="review-content">
                 <div class="reviewer-name">{{ r.Profile.firstName }} {{ r.Profile.lastName }}</div>
                 <p class="review-text">"{{ r.Content }}"</p>
@@ -76,10 +106,10 @@
 
       {% empty %}
         <h4>No Reviews</h4>
-      {% endfor %}
+      {% endfor %} -->
 
-    </div>
-  </div>
+    <!-- </div>
+  </div> -->
 
 
 
