@@ -1,0 +1,19 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/S3DirectWebsite
+
+hooks:
+  BeforeInstall:
+    - location: scripts/before_install.sh
+      runas: ec2-user
+  AfterInstall:
+    - location: scripts/after_install.sh
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/application_start.sh
+      runas: ec2-user
+  ValidateService:
+    - location: scripts/validate_service.sh
+      runas: ec2-user
