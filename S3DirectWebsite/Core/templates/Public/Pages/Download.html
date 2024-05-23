@@ -1,0 +1,54 @@
+{% extends 'Core.html' %}
+
+{% block headSection %}
+<link rel="stylesheet" href="/static/downloadstyle.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1>Download</h1>
+  <p>The latest stable version of S3 Direct was released 1 week ago and the previous version was released 4 weeks
+      ago.<br>Preview releases are intended for testing upcoming changes and may not be a stable experience.</p>
+
+  <div class="alert alert-warning">
+      <strong>Unsupported operating system</strong><br>
+      S3 Direct is an Android app only. Use an Android device to download and install the app.
+  </div>
+
+  <div class="alert alert-danger">
+      <strong>Caution</strong><br>
+      Any app for any operating systems other than Android called S3 Direct is not affiliated with this project.
+  </div>
+
+  <div class="download">
+      <div class="download-btns">
+          <a class="primary-button" href="#">v2.7.3</a>
+          <a class="secondary-button" href="#">Preview</a>
+      </div>
+      <p>Requires Android 8.0 or higher.</p>
+  </div>
+
+  <div class="changelog">
+      <h2>Changelog</h2>
+      <ul>
+          <li>
+              <strong>New features:</strong>
+              <ul>
+                  <li>Dashboard with quick review of entire S3 bucket.</li>
+                  <li>Route based file browsing fixed which enables proper back navigation among directory
+                      hierarchy.</li>
+              </ul>
+          </li>
+          <li>
+              <strong>Bugfixes:</strong>
+              <ul>
+                  <li>Policy enable/disable options now working under Settings: Layout page.</li>
+                  <li>Splash screen loading skeleton removed during startup.</li>
+              </ul>
+          </li>
+      </ul>
+  </div>
+</div>
+
+{% endblock %}

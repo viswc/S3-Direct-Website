@@ -54,3 +54,22 @@ def contact(request):
         return render(request, 'Public/Pages/Contact.html', context)
     else:
         return HttpResponseRedirect(reverse('Public:HomePage'))
+    
+def download(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            _Account = Account.objects.get(Username = request.user)
+            context = {
+                "isAuthenticated": True,
+                "Account": _Account
+            }
+        else:
+            context = {
+                "isAuthenticated": False
+            }
+
+        reqReviews = Reviews.objects.order_by('-dateCreated')[:3]
+        context["Reviews"] = reqReviews
+        return render(request, 'Public/Pages/Download.html', context)
+    else:
+        return HttpResponseRedirect(reverse('Public:HomePage'))

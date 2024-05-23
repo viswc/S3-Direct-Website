@@ -32,7 +32,7 @@
             <a href="{% url 'Public:AboutPage' %}">About</a>
             <a href="#">User Manual</a>
             <a href="{% url 'Public:ForumPage' %}">Forum</a>
-            <a href="#">Contact</a>
+            <a href="{% url 'Public:ContactPage' %}">Contact</a>
             <a href="{% url 'Public:ReviewsPage' %}">Reviews</a>
 
             {% if isAuthenticated %}
@@ -41,7 +41,7 @@
               <a href="{% url 'Authenticate:LoginPage' %}">Login</a>
             {% endif %}
 
-            <a href="#" class="primary-button">Download App</a>
+            <a href="{% url 'Public:DownloadPage' %}" class="primary-button">Download App</a>
         </div>
     </nav>
 

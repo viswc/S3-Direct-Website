@@ -9,6 +9,7 @@ urlpatterns = [
      path("home/", Home.home, name = "HomePage"),
      path("about/", Home.about, name = "AboutPage"),
      path("contact/", Home.contact, name = "ContactPage"),
+     path("download/", Home.download, name = "DownloadPage"),
 
      path("forum/", Forum.forum, name = "ForumPage"),
      path("forum/create/", Forum.forumCreate, name = "ForumCreatePage"),

@@ -1,4 +1,4 @@
-{% if request.GET.error %}
+<!-- {% if request.GET.error %}
     <p>Error: {{ request.GET.error }}</p>
 {% endif %}
 
@@ -17,4 +17,47 @@
     <button>
         <a href="{% url 'Authenticate:CreateAccount' %}">Create Account</a>
     </button>
-</form>
+</form> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/loginstyle.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    {% if request.GET.error %}
+        <p>Error: {{ request.GET.error }}</p>
+    {% endif %}
+
+    <div class="container">
+        <form class="login-form" action="{% url 'Authenticate:LoginPage' %}" method="post">
+            {% csrf_token %}
+            <h2>Log In</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" type="text" id="username" name="username" required placeholder="Username">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password">
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+            <div class="input-group remember-me">
+                <input type="checkbox" id="remember">
+                <label for="remember">Remember me?</label>
+            </div>
+            <button type="submit" class="primary-button">LOG IN</button>
+            <p class="switch">Don't have an account? <br><a href="{% url 'Authenticate:CreateAccount' %}">Create an account</a></p>
+        </form>
+    </div>
+</body>
+
+</html>
