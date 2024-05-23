@@ -10,17 +10,13 @@ phases:
       # - npm install  # If you have any Node.js dependencies
   pre_build:
     commands:
-      - echo Changing directory to S3DirectWebsite...
-      - cd S3DirectWebsite
       - echo Running database migrations...
-      - python manage.py migrate
+      - python S3DirectWebsite/manage.py migrate
       - echo Collecting static files...
-      - python manage.py collectstatic --noinput
+      - python S3DirectWebsite/manage.py collectstatic --noinput
   build:
     commands:
-      - echo Running tests...
-      - cd S3DirectWebsite
-      - python manage.py test
+      - python S3DirectWebsite/manage.py test
   post_build:
     commands:
       - echo Build complete
