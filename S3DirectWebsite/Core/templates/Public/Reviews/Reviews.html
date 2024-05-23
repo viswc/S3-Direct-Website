@@ -53,8 +53,26 @@
     <div class="review-section">
       <div class="review-header">
           <div class="review-input">
-            <input type="text" placeholder="Write a review..." class="write-review">
-            <button class="submit-btn">&#9654;</button>
+
+            <form action="{% url 'Public:ReviewsUpdatePage' %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              {% if UserReviews %}
+                <input type="text" placeholder="Write a review..." class="write-review" id="content" name="Content" value="{{ UserReviews.Content }}">
+              {% else %}
+                <input type="text" placeholder="Write a review..." class="write-review" id="content" name="Content">
+              {% endif %}
+
+              <input type="text" id="Rating" name="Rating" required hidden value="9">
+
+              {% if isAuthenticated %}
+                <button class="submit-btn" type="submit">&#9654;</button>
+              {% else %}
+                <button class="submit-btn" onclick="alert('Login to post review.')">&#9654;</button>
+              {% endif %}
+
+            </form>
+            
           </div>
           <select class="filter" onchange="window.location.href = this.value;">
             <option value="" selected disabled>Choose an option</option>
@@ -65,6 +83,13 @@
           </select>
       </div>
       <h2>Reviews from our users</h2>
+
+      {% if UserReviews %}
+        <div class="review">
+          <h3>{{ UserReviews.Profile.firstName }} {{ UserReviews.Profile.lastName }}</h3>
+          <p>"{{ UserReviews.Content }}"</p>
+        </div>
+      {% endif %}
 
       {% for r in Reviews %}
 

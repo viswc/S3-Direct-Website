@@ -135,20 +135,45 @@
               <div class="post-header">{{ Post.Title }}</div>
               <div class="post-content">{{ Post.Content }}</div>
               <div class="post-image">
-                {% if post.Attachments.first %}
-                  {% for attachment in post.Attachments.all %}
+                {% if Post.Attachments.first %}
+                  {% for attachment in Post.Attachments.all %}
                     <img src="{{ attachment.File.url }}" width="100" height="100"/>
                   {% endfor %}
                 {% endif %}
               </div>
               <div class="post-actions">
-                  <button href="{% url 'Public:ForumDetailPage' Post.slug %}">
+                  
+                  <!-- <button href="{% url 'Public:ForumDetailPage' Post.slug %}">
                       <span class="upvote-count">{{ Post.UpvotesCount }}</span>
                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                           <path fill="currentColor"
                               d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625zM15 12h-1v8h-4v-8H6.081L12 4.601L17.919 12z" />
                       </svg>
+                  </button> -->
+
+
+                  {% if isAuthenticated %}
+                    <form action="{% url 'Public:ForumActionPage' Post.slug %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="Action" value="Upvote">
+                      <button type="submit">
+                        <span class="upvote-count">{{ Post.UpvotesCount }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625zM15 12h-1v8h-4v-8H6.081L12 4.601L17.919 12z" />
+                        </svg>
+                      </button>
+                    </form>
+                  {% else %}
+                  <button onclick="alert('Login to upvote.')">
+                    <span class="upvote-count">{{ Post.UpvotesCount }}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625zM15 12h-1v8h-4v-8H6.081L12 4.601L17.919 12z" />
+                    </svg>
                   </button>
+                  {% endif %}
+
                   <button>
                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                           <path fill="currentColor"
@@ -166,8 +191,27 @@
 
           <div class="comments">
               <div class="add-comment">
-                  <input type="text" placeholder="Add a comment">
+                <form action="{% url 'Public:ForumAddComment' Post.slug %}" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+
+                  {% if Commented %}
+                    <input type="text"  id="content" name="Content"  placeholder="Add a comment" value="{{ UserComment.Content }}">
+                  {% else %}
+                    <input type="text"  id="content" name="Content" placeholder="Add a comment">
+                  {% endif %}
+
+                  <input type="file" id="Attachments" name="Attachments" accept="image/*" multiple hidden>
+                  <input type="submit" hidden>
+
+                </form>
               </div>
+
+              {% if Commented %}
+                <div class="comment">
+                    <div class="comment-author">{{ UserComment.Profile.Username }}</div>
+                    <div class="comment-content">{{ UserComment.Content }}</div>
+                </div>
+              {% endif %}
 
               {% for comment in Comments %}
               <div class="comment">
