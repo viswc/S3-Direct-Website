@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.x  # Specify your Python version
+    commands:
+      - echo Installing dependencies...
+      - pip install -r S3DirectWebsite/requirements.txt
+      - npm install  # If you have any Node.js dependencies
+  pre_build:
+    commands:
+      - echo Changing directory to S3DirectWebsite...
+      - cd S3DirectWebsite
+      - echo Running database migrations...
+      - python manage.py migrate
+      - echo Collecting static files...
+      - python manage.py collectstatic --noinput
+  build:
+    commands:
+      - echo Running tests...
+      - cd S3DirectWebsite
+      - python manage.py test
+  post_build:
+    commands:
+      - echo Build complete
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
