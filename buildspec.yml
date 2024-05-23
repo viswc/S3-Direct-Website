@@ -6,7 +6,7 @@ phases:
       python: 3.x  # Specify your Python version
     commands:
       - echo Installing dependencies...
-      # - pip install -r S3DirectWebsite/requirements.txt
+      - pip install -r requirements.txt
       # - npm install  # If you have any Node.js dependencies
   pre_build:
     commands:
@@ -17,7 +17,6 @@ phases:
       - python S3DirectWebsite/manage.py collectstatic --noinput
   build:
     commands:
-      - source env/bin/activate
       - python S3DirectWebsite/manage.py test
   post_build:
     commands:
