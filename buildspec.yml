@@ -10,7 +10,6 @@ phases:
       # - npm install  # If you have any Node.js dependencies
   pre_build:
     commands:
-      - source env/bin/activate
       - echo Running database migrations...
       - python S3DirectWebsite/manage.py migrate
       - echo Collecting static files...
