@@ -1,6 +1,6 @@
 #!/bin/bash
 # Navigate to the application directory and start the development server
-cd /home/ec2-user/S3DirectWebsite
+cd /home/ec2-user/S3-Direct-Website
 source venv/bin/activate
 python S3DirectWebsite/manage.py migrate
 python S3DirectWebsite/manage.py collectstatic --noinput
